@@ -12,6 +12,15 @@ Please click on the triangles to access the drop-down information.
 
 <details>
 <summary>
+Carolina's Contribution => Adamic Adar Concept Analysis
+</summary>
+
+For more info, please go to the README in that file.
+
+<details>
+
+<details>
+<summary>
 Clément's Contribution => Automatic KG generation with NLP
 </summary>
 
