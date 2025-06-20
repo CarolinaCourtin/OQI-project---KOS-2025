@@ -1,7 +1,14 @@
-# OQI-project---KOS-2025
+# Open Quantum Institute : Knowledge Organisation Systems Spring 2025
 
+## Team
+- Carolina Courtin
+- Mervat El-Zanaty
 
+In partnership with David Dosu from the Open Quantum Institute of Cern
 
+## Contribution
+
+Please click on the triangles to access the drop-down information.
 
 <details>
 <summary>
@@ -191,4 +198,32 @@ This part of the project explores citation patterns in the domain of **quantum n
 
 
 </details>
+
+## Overview
+
+This project aimed to predict breakthroughs in quantum computing by analyzing academic literature using OpenAlex, a comprehensive open-source index of scholarly works. The central methodology is the use of semantic networks to model and track the evolution of conceptual relationships within the field over time.
+
+By extracting data and metadata from OpenAlex, the team built different networks of interconnected concepts, where the strength of a connection (or edge weight) reflects how often two concepts co-occur in the same paper. These weights are not static, as they evolve with time, making it possible to analyze how ideas converge, diverge, or gain prominence in scholarly discourse.
+
+The goal was to go beyond static co-occurrence analysis and create a temporal analysis that can identify emerging trends and potentially forecast future breakthroughs in quantum computing.
+
+## State of the art
+
+In recent years, bibliometric analysis and scientometric tools have advanced significantly, allowing researchers to map fields, track influence, and identify emerging areas of research. Platforms such as Microsoft Academic Graph (now retired) and Semantic Scholar have paved the way for large-scale academic knowledge graphs.
+
+OpenAlex, the successor to Microsoft Academic Graph, distinguishes itself by providing extensive metadata on academic papers, including authorship, citation counts, concept tagging, and especially concept relevance scores and co-occurrence data. These features make it a rich resource for semantic network analysis.
+
+Existing studies often use static co-occurrence networks, which give a snapshot of how frequently concepts are mentioned together. However, this approach misses temporal dynamics, meaning it cannot adequately capture how relationships evolve or identify trends as they emerge.
+
+Recent efforts in dynamic network analysis, such as temporal knowledge graphs and trend detection models, are beginning to fill this gap, but applications remain limited—particularly in forecasting technological breakthroughs in specific fields like quantum computing.
+
+## Problem Statement
+
+Despite the plethora of data available in platforms like OpenAlex, researchers still face major challenges when it comes to identifying truly relevant and forward-looking research in saturated domains such as quantum computing. The vast number of publications makes it difficult to track how ideas develop and which ones signal real innovation.
+
+This project was motivated by the following key problem:
+**How can we dynamically model and analyze the evolution of conceptual relationships in quantum computing literature to better identify emerging trends and predict potential breakthroughs?**
+
+By moving from static to temporal semantic networks, this project proposes a few approaches that leverage the metadata richness of OpenAlex to reveal subtle shifts in the academic discourse, in hope to help researchers and institutions anticipate where future advances may arise.
+
 
