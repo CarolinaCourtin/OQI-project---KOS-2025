@@ -95,6 +95,55 @@ Future work could leverage:
 
 </details>
 
+<details>
+<summary>
+Mervat's Contribution => Citation Netwok KG
+</summary>
+
+# Brief Overview
+
+This part of the project explores citation patterns in the domain of **quantum networks** by constructing yearly knowledge graphs where nodes represent papers and edges represent citations. The aim is to:
+
+- Go beyond OpenAlex's `counts_by_year` (limited to post-2013) to track citations year by year using the actual citing paper's date.
+- Use citation counts as a proxy for relevance and create weighted graphs where highly cited papers gain more importance.
+- Analyze concept relationships by tracing citations between papers to infer semantic links and their evolution over time (e.g., using co-occurrence or the Jaccard index).
+
+---
+
+# Work Accomplished
+
+- **Data Collection:** Retrieved papers related to the *quantum networks* focal concept and saved them in `quantum_networks_subtree_papers_dates.csv`.
+- **Node Selection:** Selected a subset of **20–50 papers** based on title, date, and ID, stored in `nodes.csv`.
+- **Graph Construction:**
+  - Created `knowledge_graph.ttl` with up to 250 citations per paper, including their URLs.
+  - Filtered to intra-pool citations (within the 20–50 selected papers) to create `filtered_citations.ttl`.
+- **Visualization:**
+  - Built citation graphs with papers as nodes and citations as directed edges.
+  - Produced a time-based series of visualizations showing citation evolution (e.g., 1985 alone, then 1985–1995, etc.).
+  - Saved outputs in `visualisation/` (for 20 papers) and `visualisation2/` (for 50 papers).
+- **Concept Analysis:**  
+  - Explored concept relationships via citation paths, including experiments with Jaccard index and co-occurrence metrics.
+  - Generated cumulative scores for top concept pairs over time (`top_pairs_over_time.png`).
+
+---
+
+# Key Insights
+
+- **Beyond API Limits:** OpenAlex's `counts_by_year` only goes back to 2013. By using citation metadata and publication dates, this approach allows reconstructing yearly citation graphs further into the past.
+- **Citation Weighting:** Citations offer a useful proxy for a paper’s impact; using them as weights in the graph allows identifying key nodes (i.e., foundational papers).
+- **Semantic Inference:** Citation links between concept-containing papers help infer evolving relationships between concepts (e.g., A cites B implies a link from concept_A to concept_B).
+
+---
+
+# Limitations & Future Work
+
+- **API Constraints:** The OpenAlex API has rate and time window limitations, which makes large-scale or repeated queries time-consuming.
+- **Citation Date Precision:** Using only total citation counts would misrepresent temporal dynamics. For accurate time-aware analysis, the citing paper's publication date is essential.
+- **Subset-Based Analysis:** The current prototype works on a small subset (20–50 papers). Scaling to thousands will require optimized processing and storage.
+- **Concept Hierarchy Limitations:** OpenAlex's concept ontology sometimes lacks granularity or coherence. Integrating alternative ontologies or manual curation might yield better concept pair tracking.
+
+
+</details>
 
 <details>
 <summary>
@@ -127,7 +176,7 @@ This part of the project tried to understand the links and trends between the nu
 # Limitations & Future Work
 
 - **API Constraints:** The OpenAlex API imposes rate limits, meaning full-scale data acquisition can be time-consuming, yet it is to have all the details of the dataset you work on to correctly produce the edges files.
-- - **Limited data:** The OpenAlex API request "counts_by_year", which gives the detailed citation number per year of a paper is quiete limited as it only goes back to maximum 2013. Without it, the analysis wouldn't be correct, since only using the "final" citation count of a paper, wouldn't make us able to compare it fairly with the weight of a pair of concepts in 2010 and 2015 for instance, since the citation count would be from 2025.
+- **Limited data:** The OpenAlex API request "counts_by_year", which gives the detailed citation number per year of a paper is limited as it only goes back to maximum 2013. Without it, the analysis wouldn't be correct, since only using the "final" citation count of a paper, wouldn't make us able to compare it fairly with the weight of a pair of concepts in 2010 and 2015 for instance, since the citation count would be from 2025.
 - **Subset Analysis:** The current workflow is based on a subset (~26,000 papers); scaling up to the entire field will require a lot more run time.
 - **Concept Hierarchy:** The analysis depends on the granularity and quality of the OpenAlex concept hierarchy; refining concept selection or integrating other ontologies could improve result as the current one's aren't always the soundest.
 - **Further Metrics:** Future work may include more advanced network metrics, machine learning for trend prediction, or even analysis of triples instead of pairs.
