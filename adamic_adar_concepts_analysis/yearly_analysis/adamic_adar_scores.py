@@ -9,8 +9,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-# ------- YEARLY AND LEVELS 4 TO 5 ------------------------
-
 def generate_adamic_adar_scores_by_year():
     output_dir = "adamic_scores_by_year"
     os.makedirs(output_dir, exist_ok=True)
@@ -147,9 +145,15 @@ def visualiser_top_adamic_from_file(fichier_csv, top_n):
     plt.title(f"Top {top_n} liens Adamic Adar depuis {fichier_csv}")
     plt.axis('off')
     plt.tight_layout()
+
+    os.makedirs("plots", exist_ok=True)
+    base_name = os.path.splitext(os.path.basename(fichier_csv))[0]
+    output_path = os.path.join("plots", f"top_{top_n}_adamic_{base_name}.png")
+    plt.savefig(output_path, dpi=300)
     plt.show()
 
-# visualiser_top_adamic_from_file("adamic_scores_by_year/2021_adamic_scores.csv", 15)
+# Example of use for this function : top_n = number of nodes you want to display in the graph, fichier_csv = data you want to use to create the visualiation
+# visualiser_top_adamic_from_file("adamic_scores_by_year/1982_adamic_scores.csv", top_n=20)
 
 
 def get_top_adamic_scores(csv_file, top_n):
@@ -188,7 +192,7 @@ def temporal_analysis():
             first_year_track += 1
 
             if first_year_track == 1:
-                track_amount = 10
+                track_amount = 60
                 top_concepts_scores = get_top_adamic_scores(filename, track_amount)
                 print(f"Top concept scores : ", top_concepts_scores)
 
@@ -256,8 +260,8 @@ def temporal_analysis():
 
     output_dir = "plots"
     os.makedirs(output_dir, exist_ok=True)
-    plot_file = os.path.join(output_dir, "adamic_adar_evolution_50_plot.png")
-    # plt.savefig(plot_file, dpi=300)
+    plot_file = os.path.join(output_dir, f"adamic_adar_evolution_yearly_{track_amount}_pairs_GRAPH.png")
+    plt.savefig(plot_file, dpi=300)
     plt.show()
     plt.close()
     print(f"✅ Graphe enregistré dans {plot_file}")
@@ -281,8 +285,8 @@ def temporal_analysis():
     leg.get_frame().set_linewidth(0.5)
 
     plt.tight_layout()
-    legend_file = os.path.join(output_dir, "adamic_adar_evolution_50_legend.png")
-    # plt.savefig(legend_file, dpi=300)
+    legend_file = os.path.join(output_dir, f"adamic_adar_evolution_yearly_{track_amount}_pairs_LEGEND.png")
+    plt.savefig(legend_file, dpi=300)
     plt.close()
     print(f"✅ Légende enregistrée dans {legend_file}")
 
@@ -303,6 +307,8 @@ def temporal_analysis():
     plt.grid(True)
     plt.tight_layout(rect=[0, 0, 0.85, 1])
 
-    # plt.show()
+    plt.show()
 
     print(f"Top concept scores : ", top_concepts_scores)
+
+# temporal_analysis()

@@ -26,105 +26,11 @@ def get_season_label(date):
     return f"{season}_{year}"
 
 
-
-def generate_adamic_adar_scores_levels(levels):
-
-    output_dir = f"adamic_scores_levels_{'_'.join(levels)}"
-    os.makedirs(output_dir, exist_ok=True)
-
-    allowed_concepts = set()
-    with open('concepts_levels.csv', newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for ligne in reader:
-            if str(ligne["level"]) in levels:
-                concept_id = ligne["concept_id"].split("/")[-1]
-                allowed_concepts.add(concept_id)
-
-    # Lecture du dataset principal
-    df = pd.read_csv("quantum_networks_log_papers.csv")
-    df['publication_date'] = pd.to_datetime(df['publication_date'], errors='coerce')
-    df = df.dropna(subset=['publication_date'])
-    df['season_label'] = df['publication_date'].apply(get_season_label)
-
-    season_order = {'winter': 1, 'spring': 2, 'summer': 3, 'fall': 4}
-    df['season'] = df['season_label'].str.extract(r'(\w+)_\d+')[0]
-    df['year'] = df['season_label'].str.extract(r'_(\d+)')[0].astype(int)
-    df['season_rank'] = df['season'].map(season_order)
-    grouped = df.groupby(['year', 'season_rank', 'season_label'])['paper_id'].apply(list)
-    grouped = grouped.sort_index()
-
-    cumulative_articles = set()
-    season_articles_cumulative = {}
-
-    for (_, _, label), paper_ids in grouped.items():
-        cumulative_articles.update(paper_ids)
-        season_articles_cumulative[label] = sorted(cumulative_articles)
-
-    # Charger les données d’articles
-    with open("quantum_networks_log_papers.csv", newline='', encoding='utf-8') as fichier_csv:
-        lecteur = csv.DictReader(fichier_csv)
-        article_data = {ligne['paper_id']: ligne for ligne in lecteur}
-
-    for season, list_article in list(season_articles_cumulative.items()):
-        G = nx.Graph()
-
-        for article_id in list_article:
-            article = article_data.get(article_id)
-            if not article:
-                continue
-
-            concept_all = article.get("concepts", "").split(";")
-            concept_sliced = [i.split("|") for i in concept_all if len(i.split("|")) == 2]
-
-            # Appliquer le filtre de niveau ici
-            concept_ids_filtered = [
-                item[0].split('/')[-1]
-                for item in concept_sliced
-                if item[0].split('/')[-1] in allowed_concepts
-            ]
-
-            # Ajouter les noeuds filtrés
-            for item in concept_sliced:
-                concept_id = item[0].split('/')[-1]
-                concept_name = item[1]
-                concept_link = item[0]
-                if concept_id in allowed_concepts and concept_id not in G:
-                    G.add_node(concept_id, Concept_name=concept_name, Concept_link=concept_link)
-                    print(f"🧠 Concept ajouté : ID={concept_id}, Nom={concept_name}, Niveau={levels}")
-
-            # Ajouter les arêtes filtrées
-            for i in range(len(concept_ids_filtered)):
-                for j in range(i + 1, len(concept_ids_filtered)):
-                    concept1 = concept_ids_filtered[i]
-                    concept2 = concept_ids_filtered[j]
-                    if not G.has_edge(concept1, concept2):
-                        G.add_edge(concept1, concept2)
-
-        # Générer les non-arêtes
-        non_edges_list = list(nx.non_edges(G))
-        print(f"🔍 {season}: {len(non_edges_list)} couples non connectés")
-
-        # Calculer les scores Adamic-Adar
-        adamic_preds = list(adamic_adar_index(G, tqdm(non_edges_list)))
-
-
-        output_path = os.path.join(output_dir, f"{season}_adamic_scores.csv")
-        with open(output_path, mode='w', newline='', encoding='utf-8') as f:
-            writer = csv.writer(f)
-            writer.writerow(["Concept1", "Concept2", "AdamicAdarScore"])
-            for u, v, score in adamic_preds:
-                writer.writerow([u, v, score])
-        print(f"✅ Fichier sauvegardé : {output_path}")    
-
-# Example of use 
-# generate_adamic_adar_scores_levels(["4","5"])
-
-
 def generate_adamic_adar_scores_all_levels():
 
     # Creation du quaterly Dict 
 
-    df = pd.read_csv("quantum_networks_subtree_papers_dates.csv")
+    df = pd.read_csv("quantum_networks_log_papers.csv")
     df['publication_date'] = pd.to_datetime(df['publication_date'], errors='coerce')
     df = df.dropna(subset=['publication_date'])
 
@@ -144,9 +50,6 @@ def generate_adamic_adar_scores_all_levels():
     for (_, _, label), paper_ids in grouped.items():
         cumulative_articles.update(paper_ids)
         season_articles_cumulative[label] = sorted(cumulative_articles) 
-
-    '''for season, ids in season_articles_cumulative.items():
-        print(f"{season}: {ids}")'''
 
 
     with open("quantum_networks_log_papers.csv", newline='', encoding='utf-8') as fichier_csv:
@@ -264,7 +167,18 @@ def visualiser_top_adamic_from_file(fichier_csv, top_n):
 
     plt.title(f"Top {top_n} liens Adamic Adar depuis {fichier_csv}")
     plt.axis('off')
+
+    os.makedirs("plots", exist_ok=True)
+
+    base_name = os.path.splitext(os.path.basename(fichier_csv))[0]
+    output_path = os.path.join("plots", f"top_{top_n}_adamic_{base_name}.png")
+    plt.savefig(output_path, dpi=300)
+    print(f"📈 Graphique sauvegardé dans : {output_path}")
     plt.show()
+
+# Example of visualisation : ficher_csv is the file with the data you want to visualise, top_n is the amount of concept nodes you want to display 
+# visualiser_top_adamic_from_file('adamic_scores_all_level/summer_2021_adamic_scores.csv', top_n=20)
+
 
 
 # We start from some pairs of concepts using the ones with the highest score 
@@ -320,7 +234,7 @@ def temporal_analysis():
 
                 if first_season_track == 1: # we take the concepts to track in the first available file 
 
-                    track_amount = 20
+                    track_amount = 20 # amount of pairs of cocnepts we want to track
 
                     top_concepts_scores = get_top_adamic_scores(filename, track_amount)
 
@@ -421,4 +335,12 @@ def temporal_analysis():
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
+
+    os.makedirs("plots", exist_ok=True)
+    output_path = os.path.join("plots", f"adamic_adar_evolution_quaterly_{track_amount}_pairs.png")
+    plt.savefig(output_path, dpi=300) 
+    print(f"📊 Graphique sauvegardé dans : {output_path}")
+
     plt.show()
+
+# temporal_analysis()
