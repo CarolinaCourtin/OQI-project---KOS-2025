@@ -3,6 +3,8 @@
 ## Team
 - Carolina Courtin
 - Mervat El-Zanaty
+- Clément Kacel
+- Abdoulaye Diallo
 
 In partnership with David Dosu from the Open Quantum Institute of Cern
 
@@ -12,10 +14,10 @@ Please click on the triangles to access the drop-down information.
 
 <details>
 <summary>
-Carolina's Contribution => Adamic Adar Concept Analysis
+Carolina's Contribution => Adamic Adar Concept Analysis + Dynamics between AA index analysis
 </summary>
 
-For more info, please go to the README in that file.
+For more info, please go to the README in that file. Folder : adamic_adar_concepts_analysis. Readme : README-Carolina.md
 
 </details>
 
