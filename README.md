@@ -210,6 +210,8 @@ This part of the project explores citation patterns in the domain of **quantum n
 
 </details>
 
+---
+
 ## Overview
 
 This project aimed to predict breakthroughs in quantum computing by analyzing academic literature using OpenAlex, a comprehensive open-source index of scholarly works. The central methodology is the use of semantic networks to model and track the evolution of conceptual relationships within the field over time.
