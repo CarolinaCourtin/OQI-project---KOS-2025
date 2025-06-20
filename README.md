@@ -17,7 +17,7 @@ Carolina's Contribution => Adamic Adar Concept Analysis
 
 For more info, please go to the README in that file.
 
-<details>
+</details>
 
 <details>
 <summary>
