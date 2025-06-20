@@ -107,21 +107,21 @@ Future work could leverage:
 Mervat's Contribution => Citation and Weight comparaison
 </summary>
 
-# Brief Overview
+### Brief Overview
 
 This part of the project tried to understand the links and trends between the number of citations and the number of papers (weights) for pairs of concepts, that are found in the same paper in a yealy manner.
 
 
 ---
 
-# Work Accomplished
+### Work Accomplished
 
 - **Analysis:** Construction of yearly concept co-occurrence graphs, calculation of citation-enriched edge lists, and extraction of metrics such as growth rates, newcomers, and productivity patterns.
 - **Visualization:** Generation of figures illustrating key relationships (e.g., superlinear scaling between co-occurrence and citations), citations per article, and time evolution for selected concept pairs.
 
 ---
 
-# Results (Key Findings)
+### Results (Key Findings)
 
 - **Superlinear Scaling:** The number of citations for a concept pair increases slightly more than proportionally with the number of co-mentioning articles (slope ≈ 1.10 in log-log regression), indicating a superlinear relationship.
 - **No Critical Mass Effect:** Average citations per article remain nearly constant regardless of the pair's total article count, suggesting increased total citations arise from accumulation rather than increased per-paper impact.
@@ -130,7 +130,7 @@ This part of the project tried to understand the links and trends between the nu
 
 ---
 
-# Limitations & Future Work
+### Limitations & Future Work
 
 - **API Constraints:** The OpenAlex API imposes rate limits, meaning full-scale data acquisition can be time-consuming, yet it is to have all the details of the dataset you work on to correctly produce the edges files.
 - **Limited data:** The OpenAlex API request "counts_by_year", which gives the detailed citation number per year of a paper is limited as it only goes back to maximum 2013. Without it, the analysis wouldn't be correct, since only using the "final" citation count of a paper, wouldn't make us able to compare it fairly with the weight of a pair of concepts in 2010 and 2015 for instance, since the citation count would be from 2025.
@@ -140,7 +140,7 @@ This part of the project tried to understand the links and trends between the nu
 
 ---
 
-# References & Acknowledgements
+### References & Acknowledgements
 
 **Codebase Inspiration** based on the work of David Dosu from the Quantum Institute of CERN, and the work of Thomas Maillart and Thibault Chataing [wazaahhh/breakthroughs](https://github.com/wazaahhh/breakthroughs/).
 
@@ -154,7 +154,7 @@ This part of the project tried to understand the links and trends between the nu
 Mervat's Contribution => Citation Netwok KG
 </summary>
 
-# Brief Overview
+### Brief Overview
 
 This part of the project explores citation patterns in the domain of **quantum networks** by constructing yearly knowledge graphs where nodes represent papers and edges represent citations. The aim is to:
 
@@ -164,7 +164,7 @@ This part of the project explores citation patterns in the domain of **quantum n
 
 ---
 
-# Work Accomplished
+### Work Accomplished
 
 - **Data Collection:** Retrieved papers related to the *quantum networks* focal concept and saved them in `quantum_networks_subtree_papers_dates.csv`.
 - **Node Selection:** Selected a subset of **20–50 papers** based on title, date, and ID, stored in `nodes.csv`.
@@ -181,7 +181,7 @@ This part of the project explores citation patterns in the domain of **quantum n
 
 ---
 
-# Key Insights
+### Key Insights
 
 - **Beyond API Limits:** OpenAlex's `counts_by_year` only goes back to 2013. By using citation metadata and publication dates, this approach allows reconstructing yearly citation graphs further into the past.
 - **Citation Weighting:** Citations offer a useful proxy for a paper’s impact; using them as weights in the graph allows identifying key nodes (i.e., foundational papers).
@@ -189,7 +189,7 @@ This part of the project explores citation patterns in the domain of **quantum n
 
 ---
 
-# Limitations & Future Work
+### Limitations & Future Work
 
 - **API Constraints:** The OpenAlex API has rate and time window limitations, which makes large-scale or repeated queries time-consuming.
 - **Citation Date Precision:** Using only total citation counts would misrepresent temporal dynamics. For accurate time-aware analysis, the citing paper's publication date is essential.
